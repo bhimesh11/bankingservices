@@ -1,0 +1,5 @@
+package com.eazybank.accounts.entity;
+
+public class account {
+
+}
