@@ -10,5 +10,5 @@ import com.eazybank.accounts.entity.customer;
 @Repository
 public interface CustomerReposiotry extends JpaRepository<customer, Long>{
 	
-	Optional<customer> findByMobileNumber(String mobileNumber);
+	Optional<customer> findBymobileNumber(String mobileNumber);
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class customer extends BaseEntity {
@@ -16,6 +17,7 @@ public class customer extends BaseEntity {
 private Long customerId;
 private String name;
 private String email;
+@NotNull
 @Column(name = "mobile_number")
 private String mobileNumber;
 public Long getCustomerId() {

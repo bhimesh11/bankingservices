@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class accounts extends BaseEntity {
 	
 	@Column(name="customer_id")
-	private Long customer_id;
+	private Long customerId;
 	@Id
 	private Long account_number;
     @Column(name="account_type")
@@ -17,10 +17,10 @@ public class accounts extends BaseEntity {
     @Column(name="branch_address")
 	private String branch_address;
 	public Long getCustomer_id() {
-		return customer_id;
+		return customerId;
 	}
 	public void setCustomer_id(Long customer_id) {
-		this.customer_id = customer_id;
+		this.customerId = customer_id;
 	}
 	public Long getAccount_number() {
 		return account_number;
@@ -46,14 +46,14 @@ public class accounts extends BaseEntity {
 	}
 	public accounts(Long customer_id, Long account_number, String account_type, String branch_address) {
 		super();
-		this.customer_id = customer_id;
+		this.customerId = customer_id;
 		this.account_number = account_number;
 		this.account_type = account_type;
 		this.branch_address = branch_address;
 	}
 	@Override
 	public String toString() {
-		return "accounts [customer_id=" + customer_id + ", account_number=" + account_number + ", account_type="
+		return "accounts [customer_id=" + customerId + ", account_number=" + account_number + ", account_type="
 				+ account_type + ", branch_address=" + branch_address + "]";
 	}
 
