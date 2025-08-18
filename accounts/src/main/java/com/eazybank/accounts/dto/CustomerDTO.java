@@ -16,15 +16,18 @@ public class CustomerDTO {
 @NotEmpty(message = "Name cannot be empty")
 @Size(min=5,max = 30,message = "The length of the customer name should be between 5 and 30")
 private String name;
+
 @Schema( description = "Customer Email Address ", example = "bhimeshganji5@gmail.com")
 @NotEmpty(message = "Email id cannot be empty")
 @Email(message = "Email address should be valid")
 private String email;
 
+@Schema(description = "Customer mobile number for regsitartion",example = "9550594303")
 @NotEmpty
 @Pattern(regexp = "^[6-9][0-9]{9}$", message = "Mobile number should be 10 digits and start with 6-9")
 private String mobileNumber;
 
+@Schema(description = "Account details of the customer ")
 private AccountsDTO accountsDTO;
 
 
