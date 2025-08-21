@@ -12,7 +12,7 @@ public class Cards extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long carId;
+private Long cardId;
 private String mobileNumber;
 private String cardNumber;
 private String cardType;
@@ -20,10 +20,10 @@ private int totalLimit;
 private int amountUsed;
 private int availableAmount;
 public Long getCarId() {
-	return carId;
+	return cardId;
 }
 public void setCarId(Long carId) {
-	this.carId = carId;
+	this.cardId = carId;
 }
 public String getMobileNumber() {
 	return mobileNumber;
@@ -63,14 +63,14 @@ public void setAvailableAmount(int availableAmount) {
 }
 @Override
 public String toString() {
-	return "Cards [carId=" + carId + ", mobileNumber=" + mobileNumber + ", cardNumber=" + cardNumber + ", cardType="
+	return "Cards [carId=" + cardId + ", mobileNumber=" + mobileNumber + ", cardNumber=" + cardNumber + ", cardType="
 			+ cardType + ", totalLimit=" + totalLimit + ", amountUsed=" + amountUsed + ", availableAmount="
 			+ availableAmount + "]";
 }
 public Cards(LocalDateTime createdAt, String createdBy, LocalDateTime updatedAt, String updatedBy, Long carId,
 		String mobileNumber, String cardNumber, String cardType, int totalLimit, int amountUsed, int availableAmount) {
 	super(createdAt, createdBy, updatedAt, updatedBy);
-	this.carId = carId;
+	this.cardId = carId;
 	this.mobileNumber = mobileNumber;
 	this.cardNumber = cardNumber;
 	this.cardType = cardType;
