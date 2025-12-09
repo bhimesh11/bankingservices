@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.eazybank.loans.entity.Loans;
 
 @Repository
-public interface LoansRepository extends JpaRepository<Loans, Long> {
+public interface LoansRepository extends JpaRepository<Loans, Long>{
+	
 
 	Optional<Loans> findByMobileNumber(String mobileNumber);
 	Optional<Loans> findByLoanNumber(String loanNumber);

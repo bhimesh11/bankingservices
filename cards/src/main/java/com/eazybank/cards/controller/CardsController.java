@@ -1,5 +1,8 @@
 package com.eazybank.cards.controller;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.service.annotation.GetExchange;
 
 import com.eazybank.cards.constants.CardsConstants;
+import com.eazybank.cards.dto.CardContactInfo;
 import com.eazybank.cards.dto.CardsDTO;
 import com.eazybank.cards.dto.ErrorResponseDTO;
 import com.eazybank.cards.dto.ResponseDto;
+import com.eazybank.cards.dto.buildVersion;
 import com.eazybank.cards.service.IcardsService;
 import com.eazybank.cards.service.impl.ICardServiceImpl;
 
@@ -41,6 +46,13 @@ description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH AND DELETE ca
 public class CardsController {
 
 	private IcardsService icardsService;
+	@Autowired
+	private Environment environment;
+	@Autowired
+	private buildVersion buildVersion;
+	
+	@Autowired
+	private CardContactInfo cardContactInfo;
 
 	public CardsController(IcardsService icardsService) {
 		super();
@@ -152,4 +164,34 @@ public class CardsController {
 		}
 
 	}
+	   @Operation(summary = "Get Build Information",
+				description = "Get Build Information that is deployed into cards microservice")
+		@ApiResponses({ @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
+				@ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error",content = @Content(schema =  @Schema(implementation = ErrorResponseDTO.class))) })
+	   @GetMapping("/build-info")
+	   public ResponseEntity<buildVersion> getBuildInfo()
+	   {
+		return  ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+		   
+	   }
+	   @Operation(summary = "Get java version Information",
+				description = "Get java Information that is deployed into cards microservice")
+		@ApiResponses({ @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
+				@ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error",content = @Content(schema =  @Schema(implementation = ErrorResponseDTO.class))) })
+	   @GetMapping("/java-version")
+	   public ResponseEntity<String> getJavaVersion()
+	   {
+		return  ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+		   
+	   }
+		@Operation(summary = "Get Contact info",
+				description = "contact info details that can be reached out in case of any issues")
+		@ApiResponses({ @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
+				@ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error",content = @Content(schema =  @Schema(implementation = ErrorResponseDTO.class))) })
+	   @GetMapping("/contact-info")
+	   public ResponseEntity<CardContactInfo> getContactInfo()
+	   {
+		return  ResponseEntity.status(HttpStatus.OK).body(cardContactInfo);
+		   
+	   }
 }

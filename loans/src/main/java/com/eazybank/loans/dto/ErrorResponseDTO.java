@@ -24,12 +24,7 @@ private String apiPath;
   private String errorMessage;
 	@Schema(description = "Time representing when the error happend")
   private LocalDateTime errorTime;
-	public ErrorResponseDTO(String apiPath, HttpStatus errorCode, String errorMessage, LocalDateTime errorTime) {
-		super();
-		this.apiPath = apiPath;
-		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
-		this.errorTime = errorTime;
-	}
+	
+	
 	
 }
