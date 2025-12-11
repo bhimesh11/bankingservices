@@ -16,7 +16,7 @@ public interface AccountsService {
 	void createAccount (CustomerDTO customerDTO);
 
 CustomerDTO fetchDetails(
-		@Pattern(regexp = "^$|[0-9]{10})", message = "Mobile number should be 10 digits") String mobileNumber);
+		@Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number should be 10 digits") String mobileNumber);
 
 boolean updateAccount(@Valid CustomerDTO customerDTO);
 public boolean deleteAccount(String mobileNumber);

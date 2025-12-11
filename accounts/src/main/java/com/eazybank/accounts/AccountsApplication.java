@@ -3,10 +3,13 @@ package com.eazybank.accounts;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.eazybank.accounts.dto.AccountsContactInfoDto;
 import com.eazybank.accounts.dto.BuildVersion;
+
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -17,6 +20,7 @@ import io.swagger.v3.oas.annotations.info.License;
 @SpringBootApplication
 @EnableConfigurationProperties({ AccountsContactInfoDto.class, BuildVersion.class })
 @EnableJpaAuditing
+@EnableFeignClients
 @OpenAPIDefinition(info = @Info(title = "Accounts MicroService REST API documentation",
 description = "Eazybank Accounts MicroService REST API documentation",
 version = "v1",
@@ -27,5 +31,5 @@ public class AccountsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AccountsApplication.class, args);
 	}
-
+	 
 }

@@ -19,4 +19,6 @@ public class AccountsMapper {
 		accounts.setBranch_address(accountsDTO.getBranch_address());
 		return accounts;
 	}
+	
+	
 }

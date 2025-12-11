@@ -47,12 +47,32 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+      start_period: 10s
+
+  eurekaserver:
+    extends:
+      file: common-config.yml
+      service:  microservice-configserver-config
+    image: "bhimesh1998/eurekaserver:v1"
+    container_name: eurekaserver-ms
+    ports:
+      - "8070:8070"
+    environment:
+       SPRING_APPLICATION_NAME: "eurekaserver"
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eurekaserver:8070/eureka/"
+       EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+       EUREKA_CLIENT_FETCH_REGISTRY: "false"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
       start_period: 10s 
 
   accounts:
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
     image: "bhimesh1998/accounts:v1"
     container_name: accounts-ms
     ports:
@@ -63,13 +83,11 @@ services:
     depends_on:
       accountsdb:
         condition: service_healthy
-      configserver:
-        condition: service_healthy
 
   loans:
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
     image: "bhimesh1998/loans:v1"
     container_name: loans-ms
     ports:
@@ -80,13 +98,11 @@ services:
     depends_on:
       loansdb:
         condition: service_healthy
-      configserver:
-        condition: service_healthy
 
   cards:
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
     image: "bhimesh1998/cards:v1"
     container_name: cards-ms
     ports:
@@ -97,8 +113,7 @@ services:
     depends_on:
       cardsdb:
         condition: service_healthy
-      configserver:
-        condition: service_healthy
+
 
 networks:
   bhimesh06:
