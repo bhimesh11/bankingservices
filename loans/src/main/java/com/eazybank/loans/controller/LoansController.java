@@ -1,5 +1,7 @@
 package com.eazybank.loans.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,6 +59,8 @@ public class LoansController {
 	@Autowired
 	private LoanContactInfo loanContactInfo;
 	
+	private static final Logger logger = LoggerFactory.getLogger(LoansController.class);
+	
 	@Operation(summary = "Create Loan Rest API", 
 			description = "REST API to create new loans inside eazybank")
 	@ApiResponses({
@@ -91,9 +97,9 @@ public class LoansController {
 	    )
 	    @GetMapping("/fetch")
 	    public ResponseEntity<LoansDTO> fetchLoanDetails(@RequestParam
-	                                                               @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
-	                                                               String mobileNumber) {
-		 
+	    		@Pattern(regexp="(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
+	                                                               String mobileNumber,@RequestHeader("eazybank-correlation-id") String correaltionId) {
+		 logger.debug("eazyBank-correlation-id found: {} ", correaltionId);
 		 LoansDTO loansDTO = iLoanService.fetchLoan(mobileNumber);
 		 return ResponseEntity.status(HttpStatus.OK).body(loansDTO);
 		
@@ -177,6 +183,7 @@ public class LoansController {
 				description = "Get Build Information that is deployed into loans microservice")
 		@ApiResponses({ @ApiResponse(responseCode = "200", description = "HTTP Status OK"),
 				@ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error",content = @Content(schema =  @Schema(implementation = ErrorResponseDTO.class))) })
+	  
 	   @GetMapping("/build-info")
 	   public ResponseEntity<buildVersion> getBuildInfo()
 	   {
@@ -200,7 +207,10 @@ public class LoansController {
 	   @GetMapping("/contact-info")
 	   public ResponseEntity<LoanContactInfo> getContactInfo()
 	   {
-		return  ResponseEntity.status(HttpStatus.OK).body(loanContactInfo);
+			logger.debug("Invoked Loans contact-info api");
+		return  ResponseEntity
+				.status(HttpStatus.OK)
+				.body(loanContactInfo);
 		   
 	   }   
 }

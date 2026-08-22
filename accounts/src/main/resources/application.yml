@@ -5,10 +5,11 @@ spring:
   application:
     name: "accounts"
   profiles:
-    active: "PROD"        # Make sure 'PROD' profile exists
+    active: "PROD" 
 
   datasource:
-    url: jdbc:mysql://accountsdb:3306/accountsDB?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    # NOTE: Change 'localhost' to 'accountsdb' if this is for Docker PROD
+    url: jdbc:mysql://localhost:3316/accountsDB?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,19 +25,33 @@ spring:
       mode: always
 
   config:
-    import: "optional:configserver:http://configserver:8071/"
+    # NOTE: Change 'localhost' to 'configserver' if this is for Docker PROD
+    import: "optional:configserver:http://localhost:8071/"
+  
+  cloud:
+    openfeign:
+      circuitbreaker: # <-- FIXED TYPO
+        enabled: true
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint:
     shutdown:
       access: unrestricted
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 eureka:
   instance:
@@ -45,9 +60,46 @@ eureka:
     fetchRegistry: true
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://eurekaserver:8070/eureka/
+      # NOTE: Change 'localhost' to 'eurekaserver' if this is for Docker PROD
+      defaultZone: http://localhost:8070/eureka/
 
 info:
   app:
     name: "accounts-ms"
     description: "Eazy Bank Accounts-Microservice"
+    version: "1.0.0"
+    
+logging:
+  level:
+    com:
+      eazybank:
+        accounts: DEBUG
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 500
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+      ignoreExceptions:
+        - java.lang.NullPointerException
+      retryExceptions:
+        - java.util.concurrent.TimeoutException
+
+resilience4j.ratelimiter:
+  configs:
+    default:
+      timeoutDuration: 1000
+      limitRefreshPeriod: 5000
+      limitForPeriod: 1
+ 

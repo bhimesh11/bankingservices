@@ -1,9 +1,12 @@
 package com.eazybank.accounts.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +39,8 @@ public class CustomerController {
 		this.icustomerService = icustomerService;
 	}
 	
+	private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+	
 	   @Operation(
 	            summary = "Fetch Customer Details REST API",
 	            description = "REST API to fetch Customer details based on a mobile number"
@@ -56,11 +61,15 @@ public class CustomerController {
 	    )
 
 		@GetMapping("/fetchCustomerDetails")
-		public ResponseEntity<CustomerDetailsDto> fetchCustomerDetails(@RequestParam
-                @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+	   
+		public ResponseEntity<CustomerDetailsDto> fetchCustomerDetails(@RequestHeader("eazybank-correlation-id") String correlationId,
+				@RequestParam
+                @Pattern(regexp="(^$|[0-9]{10})",
+                message = "Mobile number must be 10 digits")
                 String mobileNumber)
 		{
-		CustomerDetailsDto cs = icustomerService.fetcCustomerDetailsDto(mobileNumber);
+		   logger.debug("Eazybank-correlation id: ",correlationId);	
+		CustomerDetailsDto cs = icustomerService.fetcCustomerDetailsDto(mobileNumber,correlationId);
 		return ResponseEntity.status(HttpStatus.OK).body(cs);
 		}
 	

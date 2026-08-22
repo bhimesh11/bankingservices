@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "This is my first cloud formation template for ec2 instance"
+Resources:
+  MyEC2INSTANCES1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: "ami-0c02fb55956c7d316"
+      InstanceType: "t2.micro"
+      KeyName: bhimesh-login
+      SecurityGroupIds:
+        - "sg-0066deb3d954b11f9"
+      Tags:
+        - Key: Environment
+          Value: Dev-1
+
+  MyEC2INSTANCES2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: "ami-0c02fb55956c7d316"
+      InstanceType: "t2.micro"
+      KeyName: bhimesh-login
+      SecurityGroupIds:
+        - "sg-0066deb3d954b11f9"
+      Tags:
+        - Key: Environment
+          Value: Dev-2

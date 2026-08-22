@@ -5,5 +5,5 @@ import com.eazybank.accounts.entity.customer;
 
 public interface icustomerService {
 
-	CustomerDetailsDto fetcCustomerDetailsDto(String mobileNUmber);
+	CustomerDetailsDto fetcCustomerDetailsDto(String mobileNUmber,String correlationId); 
 }
