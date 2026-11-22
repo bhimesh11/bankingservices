@@ -2,6 +2,12 @@ spring:
   application:
     name: gatewayserver
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:8080/realms/master/protocol/openid-connect/certs
+
   config:
     import: "optional:configserver:http://localhost:8071/"
 
