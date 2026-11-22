@@ -1,7 +1,0 @@
-$kind: http-request
-description: Gateway port 8072 per application.yml; verify actuator exposure and security rules.
-url: localhost/{{gatewayBaseUrl}}/actuator/health
-method: GET
-headers:
-  Accept: application/json
-order: 3000

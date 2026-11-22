@@ -1,7 +1,0 @@
-$kind: http-request
-description: Gateway route discovery is enabled in application.yml. Actual discovered paths depend on registered Eureka services.
-url: localhost/{{gatewayBaseUrl}}/actuator/gateway/routes
-method: GET
-headers:
-  Accept: application/json
-order: 4000
