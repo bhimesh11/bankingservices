@@ -16,9 +16,10 @@ public class SecurityConfig {
 	@Bean
 	public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
 		serverHttpSecurity
-				.authorizeExchange(exchange -> exchange.pathMatchers("/eazybank/accounts/**").authenticated()
-						.pathMatchers("/eazybank/cards/**").authenticated().pathMatchers("/eazybank/loans/**")
-						.authenticated().pathMatchers(HttpMethod.GET, "/**").permitAll().anyExchange().authenticated())
+				.authorizeExchange(exchange -> exchange.pathMatchers("/accounts/**").hasRole("ACCOUNTS")
+						 .pathMatchers("/cards/**").hasRole("CARDS")
+	                        .pathMatchers("/loans/**").hasRole("LOANS")
+						.pathMatchers(HttpMethod.GET, "/**").permitAll().anyExchange().authenticated())
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
 				.csrf(ServerHttpSecurity.CsrfSpec::disable);
 

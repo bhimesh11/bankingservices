@@ -1,0 +1,11 @@
+$kind: http-request
+description: Discovery locator is enabled. This assumes the standard /accounts/** service route. Direct accounts service path is /api/fetch.
+url: localhost/{{gatewayBaseUrl}}/accounts/api/fetch
+method: GET
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{access_token}}"
+order: 1000

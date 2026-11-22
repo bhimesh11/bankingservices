@@ -1,0 +1,15 @@
+$kind: http-request
+description: "Destructive: run only against local/test data."
+url: localhost/{{loansBaseUrl}}/api/loans/delete
+method: DELETE
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{access_token}}"
+scripts:
+  - type: afterResponse
+    code: pm.test('Delete response is 200 or 417', function () { pm.expect(pm.response.code).to.be.oneOf([200,417]); });
+    language: text/javascript
+order: 7000

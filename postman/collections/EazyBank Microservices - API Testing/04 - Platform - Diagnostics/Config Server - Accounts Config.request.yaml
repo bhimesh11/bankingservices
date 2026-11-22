@@ -1,0 +1,7 @@
+$kind: http-request
+description: Config Server endpoint; exposes effective accounts configuration. Keep local only; do not expose publicly.
+url: localhost/{{configServerBaseUrl}}/accounts/default
+method: GET
+headers:
+  Accept: application/json
+order: 1000

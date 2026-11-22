@@ -1,0 +1,8 @@
+$kind: http-request
+name: Eureka Dashboard / Registry
+description: Registry endpoint based on compose QA port 8070 / local app config discrepancy; change eurekaBaseUrl if your running profile uses 8761.
+url: localhost/{{eurekaBaseUrl}}/eureka/apps
+method: GET
+headers:
+  Accept: application/xml
+order: 2000

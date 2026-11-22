@@ -1,0 +1,15 @@
+$kind: http-request
+description: "Controller: POST /api/loans/create?mobileNumber=...; request parameter, not JSON body."
+url: localhost/{{loansBaseUrl}}/api/loans/create
+method: POST
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{access_token}}"
+scripts:
+  - type: afterResponse
+    code: pm.test('Expected HTTP 201', function () { pm.response.to.have.status(201); });
+    language: text/javascript
+order: 1000

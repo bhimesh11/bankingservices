@@ -1,0 +1,27 @@
+$kind: http-request
+description: "Use an existing loan number/customer. DTO constraints: 10-digit mobile, 12-digit loan number, positive totalLoan."
+url: localhost/{{loansBaseUrl}}/api/loans/update
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "mobileNumber": "9876543210",
+      "loanNumber": "123456789012",
+      "loanType": "Home Loan",
+      "totalLoan": 5000000,
+      "amountPaid": 100000,
+      "outstandingAmount": 4900000
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{access_token}}"
+scripts:
+  - type: afterResponse
+    code: pm.test('Update response is 200 or 417', function () { pm.expect(pm.response.code).to.be.oneOf([200,417]); });
+    language: text/javascript
+order: 3000

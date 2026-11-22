@@ -1,0 +1,14 @@
+$kind: http-request
+url: localhost/{{loansBaseUrl}}/api/loans/contact-info
+method: GET
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{access_token}}"
+scripts:
+  - type: afterResponse
+    code: pm.test('Expected HTTP 200', function () { pm.response.to.have.status(200); });
+    language: text/javascript
+order: 6000
